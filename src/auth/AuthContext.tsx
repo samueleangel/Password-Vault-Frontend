@@ -1,0 +1,62 @@
+/**
+ * Context de autenticación
+ * Maneja el estado del JWT y persistencia en sessionStorage
+ */
+
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+
+interface AuthContextType {
+  token: string | null;
+  setToken: (token: string | null, persist?: boolean) => void;
+  logout: () => void;
+  isAuthenticated: boolean;
+}
+
+export const AuthContext = createContext<AuthContextType>({
+  token: null,
+  setToken: () => {},
+  logout: () => {},
+  isAuthenticated: false,
+});
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [token, setTokenState] = useState<string | null>(null);
+
+  // Cargar token desde sessionStorage al montar
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("pv_token");
+    if (storedToken) {
+      setTokenState(storedToken);
+    }
+  }, []);
+
+  const setToken = (newToken: string | null, persist = true) => {
+    setTokenState(newToken);
+    
+    if (persist && newToken) {
+      sessionStorage.setItem("pv_token", newToken);
+    } else {
+      sessionStorage.removeItem("pv_token");
+    }
+  };
+
+  const logout = () => {
+    setToken(null);
+    // Redirigir a login
+    window.location.href = "/login";
+  };
+
+  const value = {
+    token,
+    setToken,
+    logout,
+    isAuthenticated: !!token,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+

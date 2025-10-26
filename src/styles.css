@@ -1,0 +1,861 @@
+/**
+ * Password Vault - Estilos principales
+ * Mobile-first, CSS custom properties, diseño moderno
+ */
+
+/* ============================================
+   CSS Variables - Design Tokens
+   ============================================ */
+:root {
+  /* Colores principales */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: #93c5fd;
+  
+  --color-secondary: #6366f1;
+  --color-secondary-hover: #4f46e5;
+  
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  
+  /* Grises y neutrales */
+  --color-bg-primary: #0b0f14;
+  --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1f2937;
+  --color-bg-card: #111827;
+  --color-bg-hover: #1f2937;
+  
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+  
+  --color-border: #374151;
+  --color-border-light: #4b5563;
+  
+  /* Espaciado */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Bordes */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6);
+  
+  /* Transiciones */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+  
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Monaco, "Courier New", monospace;
+}
+
+/* ============================================
+   Reset & Base Styles
+   ============================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+a {
+  color: var(--color-primary-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+small {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+code {
+  font-family: var(--font-mono);
+  background: var(--color-bg-tertiary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+/* ============================================
+   Form Elements
+   ============================================ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.form-group .required {
+  color: var(--color-error);
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all var(--transition-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-hint {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.error-text {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: var(--spacing-xs);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+button,
+.btn-primary,
+.btn-secondary,
+.btn-logout {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-light);
+}
+
+.btn-logout {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.btn-logout:hover {
+  background: var(--color-error);
+  color: white;
+  border-color: var(--color-error);
+}
+
+button:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--color-primary-light);
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.btn-link:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================
+   Auth Pages Layout
+   ============================================ */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  background: linear-gradient(135deg, #0b0f14 0%, #1a1f2e 100%);
+}
+
+.auth-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-2xl);
+  width: 100%;
+  max-width: 460px;
+  box-shadow: var(--shadow-xl);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.auth-header h1 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.auth-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.auth-form {
+  margin-bottom: var(--spacing-lg);
+}
+
+.auth-footer {
+  text-align: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.auth-footer p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+   Success/Error States
+   ============================================ */
+.success-card {
+  text-align: center;
+}
+
+.success-message {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+}
+
+.error-banner {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  font-size: 0.9375rem;
+}
+
+.error-message {
+  color: var(--color-error);
+}
+
+.link-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.link-button:hover {
+  background: var(--color-primary-hover);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   Verify Email Page
+   ============================================ */
+.verify-status {
+  text-align: center;
+  padding: var(--spacing-xl) 0;
+}
+
+.icon-large {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--spacing-lg);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.button-group {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+/* ============================================
+   Vault Pages Layout
+   ============================================ */
+.vault-container {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+}
+
+.vault-header {
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-lg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.vault-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.vault-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.vault-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+/* ============================================
+   Vault Actions Bar
+   ============================================ */
+.vault-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* ============================================
+   Vault Grid
+   ============================================ */
+.vault-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.vault-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  transition: all var(--transition-base);
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vault-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+}
+
+.vault-card-header h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-primary);
+}
+
+.vault-card-body {
+  margin-bottom: var(--spacing-md);
+}
+
+.vault-card-body p {
+  margin-bottom: var(--spacing-sm);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.vault-card-body .label {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.vault-username,
+.vault-url,
+.vault-date {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+}
+
+.url-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vault-card-footer {
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.link-text {
+  color: var(--color-primary-light);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ============================================
+   Empty States
+   ============================================ */
+.empty-state,
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.5;
+}
+
+.empty-state h2 {
+  color: var(--color-text-secondary);
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.empty-state p {
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* ============================================
+   Vault Form Pages
+   ============================================ */
+.vault-form-wrapper,
+.vault-detail-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+.form-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: var(--spacing-md);
+  transition: color var(--transition-fast);
+}
+
+.back-button:hover {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.vault-form {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+}
+
+.master-password-group {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-border);
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  padding-right: 3rem;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.5rem;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  margin-top: var(--spacing-xl);
+}
+
+/* ============================================
+   Vault Detail Page
+   ============================================ */
+.detail-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+}
+
+.detail-section {
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+}
+
+.detail-section:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.detail-section h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-primary-light);
+}
+
+.detail-field {
+  margin-bottom: var(--spacing-lg);
+}
+
+.detail-field:last-child {
+  margin-bottom: 0;
+}
+
+.detail-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+.detail-value {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.detail-link {
+  color: var(--color-primary-light);
+  word-break: break-all;
+}
+
+.detail-link:hover {
+  color: var(--color-primary);
+}
+
+.password-section {
+  background: var(--color-bg-tertiary);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+}
+
+.reveal-form {
+  max-width: 400px;
+}
+
+.revealed-password {
+  text-align: center;
+}
+
+.password-display {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-success);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.password-display code {
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  background: transparent;
+  padding: 0;
+  color: var(--color-success);
+  word-break: break-all;
+}
+
+.password-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.security-notice {
+  font-size: 0.875rem;
+  color: var(--color-warning);
+  margin: 0;
+}
+
+/* ============================================
+   Error Container (404)
+   ============================================ */
+.error-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-lg);
+}
+
+.error-container h1 {
+  font-size: 6rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   Responsive Design - Mobile First
+   ============================================ */
+
+/* Tablets */
+@media (min-width: 768px) {
+  .vault-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .auth-card {
+    padding: var(--spacing-2xl) 2.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: row;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .vault-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+  
+  h1 {
+    font-size: 2.25rem;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .vault-actions {
+    flex-direction: column;
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .form-actions button,
+  .form-actions a {
+    width: 100%;
+  }
+  
+  .password-actions {
+    flex-direction: column;
+  }
+}
+
+/* ============================================
+   Accessibility & UX Enhancements
+   ============================================ */
+
+/* Focus visible para teclado */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Reducir animaciones para usuarios con preferencias */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mejorar contraste en modo alto contraste */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #6b7280;
+    --color-text-secondary: #f3f4f6;
+  }
+}
+
+/* Print styles */
+@media print {
+  .vault-header,
+  .vault-actions,
+  .btn-logout,
+  .back-button,
+  .form-actions {
+    display: none;
+  }
+}
+

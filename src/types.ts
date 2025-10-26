@@ -1,5 +1,5 @@
 /**
- * Tipos TypeScript para el Password Vault
+ * TypeScript types for Password Vault
  */
 
 export type VaultItem = {
@@ -36,4 +36,3 @@ export type AuthResponse = {
   token: string;
   message?: string;
 };
-

@@ -1,110 +1,109 @@
 # 🚀 Quick Start - Password Vault Frontend
 
-## Pasos rápidos para comenzar
+## Quick steps to get started
 
-### 1. Instalar dependencias
+### 1. Install dependencies
 ```bash
 npm install
 ```
 
-### 2. Configurar el backend
-Asegúrate de que el backend Flask esté corriendo:
+### 2. Configure the backend
+Make sure the Flask backend is running:
 ```bash
-# En el directorio del backend
+# In the backend directory
 flask --app app:create_app run
 ```
 
-### 3. Configurar variables de entorno (opcional)
-Si tu backend corre en otro puerto, crea un archivo `.env`:
+### 3. Configure environment variables (optional)
+If your backend runs on a different port, create a `.env` file:
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:5000
 ```
 
-### 4. Iniciar el frontend
+### 4. Start the frontend
 ```bash
 npm run dev
 ```
 
-Abre tu navegador en: **http://localhost:5173**
+Open your browser at: **http://localhost:5173**
 
 ---
 
-## 🎯 Flujo de prueba rápida
+## 🎯 Quick test flow
 
-1. **Registro** → Ve a `/signup`
+1. **Registration** → Go to `/signup`
    - Email: `test@example.com`
    - Password: `MySecurePassword123`
 
-2. **Verificación** → Revisa tu email y haz click en el link
+2. **Verification** → Check your email and click the link
 
-3. **Login** → Usa las mismas credenciales
+3. **Login** → Use the same credentials
 
-4. **Crear credencial** → Click en "+ Nueva credencial"
+4. **Create credential** → Click "+ New credential"
    - App: `GitHub`
    - URL: `https://github.com/login`
-   - Usuario: `miusuario`
-   - Password: `mi_github_password`
+   - Username: `myusername`
+   - Password: `my_github_password`
    - Master password: `MySecurePassword123`
 
-5. **Ver credencial** → Click en la card, ingresa master password para revelar
+5. **View credential** → Click the card, enter master password to reveal
 
 ---
 
-## 🛠️ Comandos útiles
+## 🛠️ Useful commands
 
 ```bash
-# Desarrollo
-npm run dev          # Servidor con hot reload
+# Development
+npm run dev          # Server with hot reload
 
-# Build producción
-npm run build        # Compilar para producción
-npm run preview      # Ver build localmente
+# Production build
+npm run build        # Compile for production
+npm run preview      # View build locally
 
 # Linting
-npm run lint         # Verificar código
+npm run lint         # Verify code
 ```
 
 ---
 
-## 🐛 Problemas comunes
+## 🐛 Common problems
 
-**Error de conexión al backend:**
-- Verifica que el backend esté corriendo en `http://127.0.0.1:5000`
-- Revisa la consola del navegador (F12) para ver errores de red
+**Backend connection error:**
+- Verify backend is running at `http://127.0.0.1:5000`
+- Check browser console (F12) for network errors
 
 **401 Unauthorized:**
-- Tu token expiró, vuelve a hacer login
-- Verifica que el backend esté usando JWT correctamente
+- Your token expired, log in again
+- Verify backend is using JWT correctly
 
-**Formulario no valida:**
-- La contraseña maestra debe tener al menos 12 caracteres
-- El email debe ser válido
+**Form doesn't validate:**
+- Master password must be at least 12 characters
+- Email must be valid
 
 ---
 
-## 📚 Estructura rápida
+## 📚 Quick structure
 
 ```
 src/
-├── api/          → Cliente HTTP (Axios)
-├── auth/         → Sistema de autenticación
-├── pages/        → Todas las páginas/vistas
-├── App.tsx       → Router principal
+├── api/          → HTTP Client (Axios)
+├── auth/         → Authentication system
+├── pages/        → All pages/views
+├── App.tsx       → Main router
 ├── main.tsx      → Entry point
-├── styles.css    → Estilos globales
-└── types.ts      → Tipos TypeScript
+├── styles.css    → Global styles
+└── types.ts      → TypeScript types
 ```
 
 ---
 
 ## 💡 Tips
 
-- **sessionStorage**: El JWT se guarda aquí (se borra al cerrar el navegador)
-- **Master password**: Nunca se almacena, solo se envía cuando es necesario
-- **Responsivo**: Funciona en mobile, tablet y desktop
-- **Dark theme**: Optimizado para reducir fatiga visual
+- **sessionStorage**: JWT is saved here (cleared when browser closes)
+- **Master password**: Never stored, only sent when needed
+- **Responsive**: Works on mobile, tablet and desktop
+- **Dark theme**: Optimized to reduce eye strain
 
 ---
 
-¡Listo para desarrollar! 🎉
-
+Ready to develop! 🎉

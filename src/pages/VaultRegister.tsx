@@ -1,6 +1,6 @@
 /**
- * Página para registrar una nueva credencial
- * Requiere master password para cifrar
+ * Page to register a new credential
+ * Requires master password for encryption
  */
 
 import { useForm } from "react-hook-form";
@@ -11,11 +11,11 @@ import { useState } from "react";
 import client from "../api/client";
 
 const vaultRegisterSchema = z.object({
-  app_name: z.string().min(1, "El nombre de la app es requerido"),
-  app_login_url: z.string().url("URL inválida").optional().or(z.literal("")),
+  app_name: z.string().min(1, "App name is required"),
+  app_login_url: z.string().url("Invalid URL").optional().or(z.literal("")),
   username: z.string().optional(),
-  password: z.string().min(1, "La contraseña es requerida"),
-  master_password: z.string().min(1, "La contraseña maestra es requerida"),
+  password: z.string().min(1, "Password is required"),
+  master_password: z.string().min(1, "Master password is required"),
 });
 
 type VaultRegisterFormData = z.infer<typeof vaultRegisterSchema>;
@@ -37,7 +37,7 @@ export default function VaultRegister() {
     try {
       setError(null);
       
-      // Limpiar URL vacía
+      // Clean empty URL
       const payload = {
         ...data,
         app_login_url: data.app_login_url || undefined,
@@ -48,9 +48,9 @@ export default function VaultRegister() {
       navigate("/vault");
     } catch (err: any) {
       if (err.response?.status === 401) {
-        setError("Contraseña maestra incorrecta");
+        setError("Incorrect master password");
       } else {
-        setError(err.response?.data?.message || "Error al guardar la credencial");
+        setError(err.response?.data?.message || "Error saving credential");
       }
     }
   };
@@ -60,9 +60,9 @@ export default function VaultRegister() {
       <div className="vault-form-wrapper">
         <div className="form-header">
           <Link to="/vault" className="back-button">
-            ← Volver
+            ← Back
           </Link>
-          <h1>Nueva credencial</h1>
+          <h1>New Credential</h1>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="vault-form">
@@ -70,12 +70,12 @@ export default function VaultRegister() {
 
           <div className="form-group">
             <label htmlFor="app_name">
-              Nombre de la aplicación <span className="required">*</span>
+              Application name <span className="required">*</span>
             </label>
             <input
               id="app_name"
               type="text"
-              placeholder="ej: GitHub, Gmail, Netflix..."
+              placeholder="e.g: GitHub, Gmail, Netflix..."
               autoComplete="off"
               {...register("app_name")}
             />
@@ -83,11 +83,11 @@ export default function VaultRegister() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="app_login_url">URL de login (opcional)</label>
+            <label htmlFor="app_login_url">Login URL (optional)</label>
             <input
               id="app_login_url"
               type="url"
-              placeholder="https://ejemplo.com/login"
+              placeholder="https://example.com/login"
               autoComplete="off"
               {...register("app_login_url")}
             />
@@ -97,11 +97,11 @@ export default function VaultRegister() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="username">Usuario / Email (opcional)</label>
+            <label htmlFor="username">Username / Email (optional)</label>
             <input
               id="username"
               type="text"
-              placeholder="usuario@ejemplo.com"
+              placeholder="user@example.com"
               autoComplete="off"
               {...register("username")}
             />
@@ -110,13 +110,13 @@ export default function VaultRegister() {
 
           <div className="form-group">
             <label htmlFor="password">
-              Contraseña a guardar <span className="required">*</span>
+              Password to save <span className="required">*</span>
             </label>
             <div className="password-input-wrapper">
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="La contraseña que quieres cifrar"
+                placeholder="The password you want to encrypt"
                 autoComplete="off"
                 {...register("password")}
               />
@@ -124,7 +124,7 @@ export default function VaultRegister() {
                 type="button"
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? "👁️" : "👁️‍🗨️"}
               </button>
@@ -134,12 +134,12 @@ export default function VaultRegister() {
 
           <div className="form-group master-password-group">
             <label htmlFor="master_password">
-              Tu contraseña maestra <span className="required">*</span>
+              Your master password <span className="required">*</span>
             </label>
             <input
               id="master_password"
               type="password"
-              placeholder="Para cifrar esta credencial"
+              placeholder="To encrypt this credential"
               autoComplete="current-password"
               {...register("master_password")}
             />
@@ -147,16 +147,16 @@ export default function VaultRegister() {
               <span className="error-text">{errors.master_password.message}</span>
             )}
             <small className="form-hint">
-              Necesitamos tu contraseña maestra para cifrar esta credencial de forma segura
+              We need your master password to encrypt this credential securely
             </small>
           </div>
 
           <div className="form-actions">
             <Link to="/vault" className="btn-secondary">
-              Cancelar
+              Cancel
             </Link>
             <button type="submit" className="btn-primary" disabled={isSubmitting}>
-              {isSubmitting ? "Guardando..." : "💾 Guardar credencial"}
+              {isSubmitting ? "Saving..." : "💾 Save credential"}
             </button>
           </div>
         </form>
@@ -164,4 +164,3 @@ export default function VaultRegister() {
     </div>
   );
 }
-

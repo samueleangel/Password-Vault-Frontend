@@ -1,188 +1,188 @@
 # 🔐 Password Vault - Frontend
 
-Frontend moderno y seguro para el Password Vault, construido con React + TypeScript + Vite.
+Modern and secure frontend for Password Vault, built with React + TypeScript + Vite.
 
-## 🎯 Características
+## 🎯 Features
 
-- ✅ **Autenticación completa**: Signup, verificación por email, login
-- 🔐 **Gestión segura de credenciales**: Crear, listar, ver y revelar passwords cifradas
-- 🎨 **UI moderna y responsiva**: Mobile-first, dark theme, transiciones suaves
-- 🔒 **Seguridad frontend**: JWT en sessionStorage, auto-logout en 401
-- ⚡ **Performance**: Vite para dev rápido y builds optimizados
-- 📝 **Type-safe**: TypeScript + Zod para validación de formularios
-- ♿ **Accesible**: WCAG compliance, navegación por teclado
+- ✅ **Complete authentication**: Signup, email verification, login
+- 🔐 **Secure credential management**: Create, list, view and reveal encrypted passwords
+- 🎨 **Modern responsive UI**: Mobile-first, dark theme, smooth transitions
+- 🔒 **Frontend security**: JWT in sessionStorage, auto-logout on 401
+- ⚡ **Performance**: Vite for fast dev and optimized builds
+- 📝 **Type-safe**: TypeScript + Zod for form validation
+- ♿ **Accessible**: WCAG compliance, keyboard navigation
 
 ## 🏗️ Tech Stack
 
-| Categoría | Tecnología |
+| Category | Technology |
 |-----------|-----------|
 | Framework | React 18 |
-| Lenguaje | TypeScript |
+| Language | TypeScript |
 | Build Tool | Vite |
 | Routing | React Router v6 |
 | HTTP Client | Axios |
-| Formularios | React Hook Form + Zod |
-| Estilos | CSS moderno (variables, Grid, Flexbox) |
+| Forms | React Hook Form + Zod |
+| Styles | Modern CSS (variables, Grid, Flexbox) |
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 Password-Vault-Frontend/
 ├── src/
 │   ├── api/
-│   │   └── client.ts          # Cliente Axios con interceptores JWT
+│   │   └── client.ts          # Axios client with JWT interceptors
 │   ├── auth/
-│   │   ├── AuthContext.tsx    # Context API para autenticación
-│   │   ├── useAuth.ts         # Hook personalizado
-│   │   └── ProtectedRoute.tsx # HOC para rutas protegidas
+│   │   ├── AuthContext.tsx    # Context API for authentication
+│   │   ├── useAuth.ts         # Custom hook
+│   │   └── ProtectedRoute.tsx # HOC for protected routes
 │   ├── pages/
-│   │   ├── Signup.tsx         # Registro de usuario
-│   │   ├── VerifyEmail.tsx    # Verificación de email
-│   │   ├── Login.tsx          # Inicio de sesión
-│   │   ├── VaultList.tsx      # Lista de credenciales
-│   │   ├── VaultRegister.tsx  # Nueva credencial
-│   │   └── VaultDetail.tsx    # Detalle y revelación de password
-│   ├── App.tsx                # Router y configuración principal
+│   │   ├── Signup.tsx         # User registration
+│   │   ├── VerifyEmail.tsx    # Email verification
+│   │   ├── Login.tsx          # Login
+│   │   ├── VaultList.tsx      # Credentials list
+│   │   ├── VaultRegister.tsx  # New credential
+│   │   └── VaultDetail.tsx    # Detail and password reveal
+│   ├── App.tsx                # Router and main configuration
 │   ├── main.tsx               # Entry point
-│   ├── styles.css             # Estilos globales
-│   └── types.ts               # Tipos TypeScript
+│   ├── styles.css             # Global styles
+│   └── types.ts               # TypeScript types
 ├── index.html
 ├── package.json
 ├── vite.config.ts
 └── tsconfig.json
 ```
 
-## 🚀 Instalación y Setup
+## 🚀 Installation and Setup
 
-### 1. Instalar dependencias
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Configurar variables de entorno
+### 2. Configure environment variables
 
-Crea un archivo `.env` en la raíz del proyecto:
+Create a `.env` file in the project root:
 
 ```bash
 cp .env.example .env
 ```
 
-Edita `.env` con la URL de tu backend:
+Edit `.env` with your backend URL:
 
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:5000
 ```
 
-### 3. Iniciar servidor de desarrollo
+### 3. Start development server
 
 ```bash
 npm run dev
 ```
 
-La aplicación estará disponible en: **http://localhost:5173**
+The application will be available at: **http://localhost:5173**
 
-### 4. Asegúrate de que el backend esté corriendo
+### 4. Make sure the backend is running
 
-El backend debe estar corriendo en `http://127.0.0.1:5000` (o la URL que configuraste).
+The backend must be running at `http://127.0.0.1:5000` (or your configured URL).
 
-## 🎮 Scripts Disponibles
+## 🎮 Available Scripts
 
 ```bash
-# Desarrollo
-npm run dev         # Inicia servidor de desarrollo con hot reload
+# Development
+npm run dev         # Start dev server with hot reload
 
-# Producción
-npm run build       # Compila TypeScript y construye para producción
-npm run preview     # Preview del build de producción (puerto 5174)
+# Production
+npm run build       # Compile TypeScript and build for production
+npm run preview     # Preview production build (port 5174)
 
 # Linting
-npm run lint        # Ejecuta ESLint
+npm run lint        # Run ESLint
 ```
 
-## 🔐 Flujo de Uso
+## 🔐 User Flow
 
-### 1️⃣ Registro
-- Ve a `/signup`
-- Ingresa email y contraseña maestra (mín. 12 caracteres)
-- Recibirás un email de verificación
+### 1️⃣ Registration
+- Go to `/signup`
+- Enter email and master password (min. 12 characters)
+- You'll receive a verification email
 
-### 2️⃣ Verificación
-- Haz click en el link del email
-- Serás redirigido a `/verify?token=...`
-- Una vez verificado, puedes iniciar sesión
+### 2️⃣ Verification
+- Click the link in the email
+- You'll be redirected to `/verify?token=...`
+- Once verified, you can log in
 
 ### 3️⃣ Login
-- Ve a `/login`
-- Ingresa tus credenciales
-- El JWT se guarda automáticamente
+- Go to `/login`
+- Enter your credentials
+- JWT is saved automatically
 
-### 4️⃣ Gestión del Vault
-- **Lista**: Ver todas tus credenciales guardadas
-- **Crear**: Agregar nueva credencial (requiere master password)
-- **Ver**: Ver detalles de una credencial
-- **Revelar**: Descifrar y mostrar la contraseña (requiere master password)
+### 4️⃣ Vault Management
+- **List**: View all your saved credentials
+- **Create**: Add new credential (requires master password)
+- **View**: See credential details
+- **Reveal**: Decrypt and show password (requires master password)
 
-## 🎨 Diseño y Estilos
+## 🎨 Design and Styles
 
-### Características CSS
-- ✅ **CSS Variables** para theming consistente
+### CSS Features
+- ✅ **CSS Variables** for consistent theming
 - ✅ **Mobile-first** responsive design
-- ✅ **Flexbox y Grid** para layouts modernos
-- ✅ **Transiciones suaves** y animaciones
-- ✅ **Dark theme** optimizado para reducir fatiga visual
-- ✅ **Accesibilidad**: focus states, contrast ratios
-- ✅ **Print styles** incluidos
+- ✅ **Flexbox and Grid** for modern layouts
+- ✅ **Smooth transitions** and animations
+- ✅ **Dark theme** optimized to reduce eye strain
+- ✅ **Accessibility**: focus states, contrast ratios
+- ✅ **Print styles** included
 
-### Tokens de Diseño
+### Design Tokens
 ```css
 /* Spacing: xs, sm, md, lg, xl, 2xl */
-/* Colores: primary, secondary, success, error */
+/* Colors: primary, secondary, success, error */
 /* Borders: radius-sm, radius-md, radius-lg */
 /* Shadows: shadow-sm, shadow-md, shadow-lg */
 ```
 
-## 🔒 Seguridad
+## 🔒 Security
 
-### Prácticas implementadas
+### Implemented Practices
 
-1. **JWT en sessionStorage**: Evita XSS persistente (no usa localStorage)
-2. **Auto-interceptor 401**: Logout automático si el token expira
-3. **Master password nunca se guarda**: Solo se envía en formularios específicos
-4. **Passwords reveladas temporalmente**: Auto-hide después de 30 segundos
-5. **HTTPS recomendado**: En producción usar siempre HTTPS
-6. **Validación client-side**: Zod schemas previenen datos malformados
+1. **JWT in sessionStorage**: Prevents persistent XSS (doesn't use localStorage)
+2. **Auto-interceptor 401**: Automatic logout if token expires
+3. **Master password never saved**: Only sent in specific forms
+4. **Revealed passwords temporary**: Auto-hide after 30 seconds
+5. **HTTPS recommended**: Always use HTTPS in production
+6. **Client-side validation**: Zod schemas prevent malformed data
 
-### ⚠️ Notas de Seguridad
+### ⚠️ Security Notes
 
-- La contraseña maestra **nunca se almacena** en el frontend
-- Solo se envía al backend cuando es necesaria (registro, cifrado, descifrado)
-- El JWT es **stateless** - logout simplemente borra el token del sessionStorage
-- Las contraseñas reveladas se muestran temporalmente y deben copiarse manualmente
+- Master password is **never stored** in frontend
+- Only sent to backend when necessary (registration, encryption, decryption)
+- JWT is **stateless** - logout simply clears token from sessionStorage
+- Revealed passwords are shown temporarily and must be manually copied
 
-## 🌐 API Endpoints Consumidos
+## 🌐 API Endpoints Consumed
 
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/auth/signup` | Registro de usuario |
-| GET | `/auth/verify?token=...` | Verificación de email |
-| POST | `/auth/login` | Autenticación |
-| GET | `/vault/list` | Lista de credenciales |
-| POST | `/vault/register` | Nueva credencial |
-| GET | `/vault/:id` | Detalle de credencial |
-| POST | `/vault/:id/reveal` | Revelar password cifrada |
+| POST | `/auth/signup` | User registration |
+| GET | `/auth/verify?token=...` | Email verification |
+| POST | `/auth/login` | Authentication |
+| GET | `/vault/list` | List credentials |
+| POST | `/vault/register` | New credential |
+| GET | `/vault/:id` | Credential detail |
+| POST | `/vault/:id/reveal` | Reveal encrypted password |
 
-## 📦 Build para Producción
+## 📦 Build for Production
 
 ```bash
-# 1. Construir
+# 1. Build
 npm run build
 
-# 2. Los archivos estáticos estarán en ./dist
-# 3. Puedes servirlos con cualquier servidor estático
+# 2. Static files will be in ./dist
+# 3. You can serve them with any static server
 ```
 
-### Opciones de deploy
+### Deploy Options
 
 #### Vercel
 ```bash
@@ -196,95 +196,95 @@ npm i -g netlify-cli
 netlify deploy
 ```
 
-#### Servidor manual (Nginx, Apache, etc)
-Solo sirve la carpeta `dist/` como archivos estáticos.
+#### Manual server (Nginx, Apache, etc)
+Just serve the `dist/` folder as static files.
 
-**Importante**: Configura el servidor para redirigir todas las rutas a `index.html` (SPA routing).
+**Important**: Configure the server to redirect all routes to `index.html` (SPA routing).
 
-Ejemplo Nginx:
+Nginx example:
 ```nginx
 location / {
   try_files $uri $uri/ /index.html;
 }
 ```
 
-## 🛠️ Personalización
+## 🛠️ Customization
 
-### Cambiar colores del tema
+### Change theme colors
 
-Edita las variables CSS en `src/styles.css`:
+Edit CSS variables in `src/styles.css`:
 
 ```css
 :root {
-  --color-primary: #3b82f6;    /* Color principal */
-  --color-bg-primary: #0b0f14; /* Fondo principal */
-  /* ... más variables */
+  --color-primary: #3b82f6;    /* Primary color */
+  --color-bg-primary: #0b0f14; /* Primary background */
+  /* ... more variables */
 }
 ```
 
-### Agregar nuevas páginas
+### Add new pages
 
-1. Crea el componente en `src/pages/NuevaPagina.tsx`
-2. Agrega la ruta en `src/App.tsx`:
+1. Create component in `src/pages/NewPage.tsx`
+2. Add route in `src/App.tsx`:
 
 ```tsx
-<Route path="/nueva" element={<NuevaPagina />} />
+<Route path="/new" element={<NewPage />} />
 ```
 
-### Modificar validaciones
+### Modify validations
 
-Edita los schemas Zod en cada página:
+Edit Zod schemas in each page:
 
 ```tsx
 const schema = z.object({
   email: z.string().email(),
-  // ... tus reglas
+  // ... your rules
 });
 ```
 
 ## 🐛 Troubleshooting
 
-### El backend no responde
-- Verifica que el backend esté corriendo en el puerto correcto
-- Revisa la variable `VITE_API_BASE_URL` en `.env`
-- Abre DevTools > Network para ver los requests
+### Backend doesn't respond
+- Verify backend is running on correct port
+- Check `VITE_API_BASE_URL` variable in `.env`
+- Open DevTools > Network to see requests
 
-### Error 401 al hacer requests
-- Tu token expiró, vuelve a hacer login
-- Verifica que el backend acepte el formato `Authorization: Bearer <token>`
+### 401 Error on requests
+- Your token expired, log in again
+- Verify backend accepts `Authorization: Bearer <token>` format
 
-### No se ven los estilos
-- Reinicia el servidor de desarrollo (`npm run dev`)
-- Limpia caché del navegador
-- Verifica que `src/styles.css` esté importado en `main.tsx`
+### Styles not showing
+- Restart dev server (`npm run dev`)
+- Clear browser cache
+- Verify `src/styles.css` is imported in `main.tsx`
 
 ### TypeScript errors
 ```bash
-# Regenerar tipos
+# Regenerate types
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-## 📝 Mejoras Futuras
+## 📝 Future Improvements
 
-- [ ] Agregar edición de credenciales (PUT `/vault/:id`)
-- [ ] Implementar eliminación de credenciales
-- [ ] Sistema de categorías/tags
-- [ ] Generador de contraseñas seguras
-- [ ] Búsqueda avanzada y filtros
-- [ ] Exportar credenciales (CSV, JSON)
-- [ ] PWA con service workers
+- [ ] Add credential editing (PUT `/vault/:id`)
+- [ ] Implement credential deletion
+- [ ] Category/tag system
+- [ ] Secure password generator
+- [ ] Advanced search and filters
+- [ ] Export credentials (CSV, JSON)
+- [ ] PWA with service workers
 - [ ] Dark/Light theme toggle
-- [ ] Autenticación 2FA
+- [ ] 2FA authentication
 
-## 📄 Licencia
+## 📄 License
 
-MIT License - Libre para uso personal y comercial.
+MIT License - Free for personal and commercial use.
 
-## 👨‍💻 Autor
+## 👨‍💻 Author
 
-Desarrollado con ❤️ para el Holberton Portfolio Project.
+Developed with ❤️ for the Holberton Portfolio Project.
 
 ---
 
-**¿Necesitas ayuda?** Revisa la documentación del backend o abre un issue en GitHub.
+**Need help?** Check the backend documentation or open an issue on GitHub.

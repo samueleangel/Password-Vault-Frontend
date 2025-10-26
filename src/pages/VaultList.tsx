@@ -1,6 +1,6 @@
 /**
- * Página principal del vault
- * Lista todas las credenciales guardadas
+ * Main vault page
+ * Lists all saved credentials
  */
 
 import { useEffect, useState } from "react";
@@ -26,11 +26,11 @@ export default function VaultList() {
       setError(null);
       const response = await client.get("/vault/list");
       
-      // El backend puede retornar {items: [...]} o directamente [...]
+      // Backend may return {items: [...]} or directly [...]
       const data = response.data.items || response.data;
       setItems(Array.isArray(data) ? data : []);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al cargar las credenciales");
+      setError(err.response?.data?.message || "Error loading credentials");
     } finally {
       setLoading(false);
     }
@@ -44,9 +44,9 @@ export default function VaultList() {
     <div className="vault-container">
       <header className="vault-header">
         <div className="vault-header-content">
-          <h1>🔐 Mi Bóveda</h1>
+          <h1>🔐 My Vault</h1>
           <button onClick={logout} className="btn-logout">
-            Cerrar sesión
+            Log out
           </button>
         </div>
       </header>
@@ -55,20 +55,20 @@ export default function VaultList() {
         <div className="vault-actions">
           <input
             type="search"
-            placeholder="🔍 Buscar credencial..."
+            placeholder="🔍 Search credential..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
           <Link to="/vault/new" className="btn-primary">
-            + Nueva credencial
+            + New credential
           </Link>
         </div>
 
         {loading && (
           <div className="loading-state">
             <div className="spinner"></div>
-            <p>Cargando credenciales...</p>
+            <p>Loading credentials...</p>
           </div>
         )}
 
@@ -76,7 +76,7 @@ export default function VaultList() {
           <div className="error-banner">
             {error}
             <button onClick={loadVaultItems} className="btn-link">
-              Reintentar
+              Retry
             </button>
           </div>
         )}
@@ -84,17 +84,17 @@ export default function VaultList() {
         {!loading && !error && filteredItems.length === 0 && searchTerm === "" && (
           <div className="empty-state">
             <div className="empty-icon">🔒</div>
-            <h2>No tienes credenciales guardadas</h2>
-            <p>Comienza agregando tu primera credencial para mantenerla segura</p>
+            <h2>No saved credentials</h2>
+            <p>Start by adding your first credential to keep it secure</p>
             <Link to="/vault/new" className="btn-primary">
-              + Crear primera credencial
+              + Create first credential
             </Link>
           </div>
         )}
 
         {!loading && !error && filteredItems.length === 0 && searchTerm !== "" && (
           <div className="empty-state">
-            <p>No se encontraron credenciales que coincidan con "{searchTerm}"</p>
+            <p>No credentials found matching "{searchTerm}"</p>
           </div>
         )}
 
@@ -108,7 +108,7 @@ export default function VaultList() {
                 <div className="vault-card-body">
                   {item.username && (
                     <p className="vault-username">
-                      <span className="label">Usuario:</span> {item.username}
+                      <span className="label">Username:</span> {item.username}
                     </p>
                   )}
                   {item.app_login_url && (
@@ -118,12 +118,12 @@ export default function VaultList() {
                     </p>
                   )}
                   <p className="vault-date">
-                    <span className="label">Creada:</span>{" "}
-                    {new Date(item.created_at).toLocaleDateString("es-ES")}
+                    <span className="label">Created:</span>{" "}
+                    {new Date(item.created_at).toLocaleDateString("en-US")}
                   </p>
                 </div>
                 <div className="vault-card-footer">
-                  <span className="link-text">Ver detalles →</span>
+                  <span className="link-text">View details →</span>
                 </div>
               </Link>
             ))}
@@ -133,4 +133,3 @@ export default function VaultList() {
     </div>
   );
 }
-

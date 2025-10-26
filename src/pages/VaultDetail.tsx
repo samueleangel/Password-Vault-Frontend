@@ -1,6 +1,6 @@
 /**
- * Página de detalle de una credencial
- * Permite ver y revelar la contraseña cifrada
+ * Credential detail page
+ * Allows viewing and revealing encrypted password
  */
 
 import { useEffect, useState } from "react";
@@ -33,9 +33,9 @@ export default function VaultDetail() {
       setItem(response.data);
     } catch (err: any) {
       if (err.response?.status === 404) {
-        setError("Credencial no encontrada");
+        setError("Credential not found");
       } else {
-        setError(err.response?.data?.message || "Error al cargar la credencial");
+        setError(err.response?.data?.message || "Error loading credential");
       }
     } finally {
       setLoading(false);
@@ -46,7 +46,7 @@ export default function VaultDetail() {
     e.preventDefault();
     
     if (!masterPassword.trim()) {
-      setRevealError("Ingresa tu contraseña maestra");
+      setRevealError("Enter your master password");
       return;
     }
 
@@ -60,16 +60,16 @@ export default function VaultDetail() {
 
       setRevealedPassword(response.data.password);
       
-      // Auto-ocultar después de 30 segundos por seguridad
+      // Auto-hide after 30 seconds for security
       setTimeout(() => {
         setRevealedPassword(null);
         setMasterPassword("");
       }, 30000);
     } catch (err: any) {
       if (err.response?.status === 401) {
-        setRevealError("Contraseña maestra incorrecta");
+        setRevealError("Incorrect master password");
       } else {
-        setRevealError(err.response?.data?.message || "Error al revelar la contraseña");
+        setRevealError(err.response?.data?.message || "Error revealing password");
       }
     } finally {
       setRevealing(false);
@@ -79,7 +79,7 @@ export default function VaultDetail() {
   const handleCopyPassword = () => {
     if (revealedPassword) {
       navigator.clipboard.writeText(revealedPassword);
-      alert("Contraseña copiada al portapapeles");
+      alert("Password copied to clipboard");
     }
   };
 
@@ -93,7 +93,7 @@ export default function VaultDetail() {
       <div className="vault-container">
         <div className="loading-state">
           <div className="spinner"></div>
-          <p>Cargando credencial...</p>
+          <p>Loading credential...</p>
         </div>
       </div>
     );
@@ -104,9 +104,9 @@ export default function VaultDetail() {
       <div className="vault-container">
         <div className="error-state">
           <h2>Error</h2>
-          <p>{error || "Credencial no encontrada"}</p>
+          <p>{error || "Credential not found"}</p>
           <Link to="/vault" className="btn-primary">
-            ← Volver al vault
+            ← Back to vault
           </Link>
         </div>
       </div>
@@ -118,18 +118,18 @@ export default function VaultDetail() {
       <div className="vault-detail-wrapper">
         <div className="form-header">
           <Link to="/vault" className="back-button">
-            ← Volver
+            ← Back
           </Link>
           <h1>{item.app_name}</h1>
         </div>
 
         <div className="detail-card">
           <div className="detail-section">
-            <h3>Información</h3>
+            <h3>Information</h3>
             
             {item.app_login_url && (
               <div className="detail-field">
-                <label>URL de login</label>
+                <label>Login URL</label>
                 <a
                   href={item.app_login_url}
                   target="_blank"
@@ -143,30 +143,30 @@ export default function VaultDetail() {
 
             {item.username && (
               <div className="detail-field">
-                <label>Usuario</label>
+                <label>Username</label>
                 <p className="detail-value">{item.username}</p>
               </div>
             )}
 
             <div className="detail-field">
-              <label>Fecha de creación</label>
+              <label>Created</label>
               <p className="detail-value">
-                {new Date(item.created_at).toLocaleString("es-ES")}
+                {new Date(item.created_at).toLocaleString("en-US")}
               </p>
             </div>
 
             {item.updated_at && (
               <div className="detail-field">
-                <label>Última actualización</label>
+                <label>Last updated</label>
                 <p className="detail-value">
-                  {new Date(item.updated_at).toLocaleString("es-ES")}
+                  {new Date(item.updated_at).toLocaleString("en-US")}
                 </p>
               </div>
             )}
           </div>
 
           <div className="detail-section password-section">
-            <h3>Contraseña cifrada</h3>
+            <h3>Encrypted Password</h3>
 
             {!revealedPassword ? (
               <form onSubmit={handleRevealPassword} className="reveal-form">
@@ -174,12 +174,12 @@ export default function VaultDetail() {
                 
                 <div className="form-group">
                   <label htmlFor="master_password">
-                    Ingresa tu contraseña maestra para revelar
+                    Enter your master password to reveal
                   </label>
                   <input
                     id="master_password"
                     type="password"
-                    placeholder="Tu contraseña maestra"
+                    placeholder="Your master password"
                     value={masterPassword}
                     onChange={(e) => setMasterPassword(e.target.value)}
                     autoComplete="current-password"
@@ -187,7 +187,7 @@ export default function VaultDetail() {
                 </div>
 
                 <button type="submit" className="btn-primary" disabled={revealing}>
-                  {revealing ? "Descifrando..." : "🔓 Mostrar contraseña"}
+                  {revealing ? "Decrypting..." : "🔓 Show password"}
                 </button>
               </form>
             ) : (
@@ -197,14 +197,14 @@ export default function VaultDetail() {
                 </div>
                 <div className="password-actions">
                   <button onClick={handleCopyPassword} className="btn-secondary">
-                    📋 Copiar
+                    📋 Copy
                   </button>
                   <button onClick={handleHidePassword} className="btn-secondary">
-                    👁️ Ocultar
+                    👁️ Hide
                   </button>
                 </div>
                 <p className="security-notice">
-                  ⚠️ La contraseña se ocultará automáticamente en 30 segundos
+                  ⚠️ Password will be hidden automatically in 30 seconds
                 </p>
               </div>
             )}
@@ -214,4 +214,3 @@ export default function VaultDetail() {
     </div>
   );
 }
-

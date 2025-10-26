@@ -1,6 +1,6 @@
 /**
- * Página de login
- * Autentica al usuario y guarda el JWT
+ * Login page
+ * Authenticates user and saves JWT
  */
 
 import { useForm } from "react-hook-form";
@@ -12,8 +12,8 @@ import { useAuth } from "../auth/useAuth";
 import client from "../api/client";
 
 const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  master_password: z.string().min(1, "La contraseña es requerida"),
+  email: z.string().email("Invalid email"),
+  master_password: z.string().min(1, "Password is required"),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -37,19 +37,19 @@ export default function Login() {
       setError(null);
       const response = await client.post("/auth/login", data);
       
-      // Guardar token
+      // Save token
       setToken(response.data.token);
 
-      // Redirigir a la ruta anterior o al vault
+      // Redirect to previous route or vault
       const from = (location.state as any)?.from?.pathname || "/vault";
       navigate(from, { replace: true });
     } catch (err: any) {
       if (err.response?.status === 401) {
-        setError("Credenciales incorrectas");
+        setError("Incorrect credentials");
       } else if (err.response?.status === 403) {
-        setError("Debes verificar tu email antes de iniciar sesión");
+        setError("You must verify your email before logging in");
       } else {
-        setError(err.response?.data?.message || "Error al iniciar sesión. Intenta de nuevo.");
+        setError(err.response?.data?.message || "Error logging in. Please try again.");
       }
     }
   };
@@ -58,7 +58,7 @@ export default function Login() {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>🔐 Iniciar sesión</h1>
+          <h1>🔐 Log In</h1>
           <p className="auth-subtitle">Password Vault</p>
         </div>
 
@@ -70,7 +70,7 @@ export default function Login() {
             <input
               id="email"
               type="email"
-              placeholder="tu@email.com"
+              placeholder="you@email.com"
               autoComplete="email"
               {...register("email")}
             />
@@ -78,11 +78,11 @@ export default function Login() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="master_password">Contraseña maestra</label>
+            <label htmlFor="master_password">Master Password</label>
             <input
               id="master_password"
               type="password"
-              placeholder="Tu contraseña maestra"
+              placeholder="Your master password"
               autoComplete="current-password"
               {...register("master_password")}
             />
@@ -92,17 +92,16 @@ export default function Login() {
           </div>
 
           <button type="submit" className="btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? "Iniciando sesión..." : "Entrar"}
+            {isSubmitting ? "Logging in..." : "Log in"}
           </button>
         </form>
 
         <div className="auth-footer">
           <p>
-            ¿No tienes cuenta? <Link to="/signup">Regístrate</Link>
+            Don't have an account? <Link to="/signup">Sign up</Link>
           </p>
         </div>
       </div>
     </div>
   );
 }
-

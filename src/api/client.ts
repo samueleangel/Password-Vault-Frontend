@@ -1,6 +1,6 @@
 /**
- * Cliente HTTP configurado con Axios
- * Incluye interceptores para JWT automático
+ * HTTP client configured with Axios
+ * Includes interceptors for automatic JWT handling
  */
 
 import axios from "axios";
@@ -12,7 +12,7 @@ const client = axios.create({
   },
 });
 
-// Interceptor: inyectar JWT en cada request
+// Interceptor: inject JWT in every request
 client.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("pv_token");
@@ -26,14 +26,14 @@ client.interceptors.request.use(
   }
 );
 
-// Interceptor: manejo de respuestas y errores
+// Interceptor: handle responses and errors
 client.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Si el token expiró o es inválido, limpiar sesión
+    // If token expired or is invalid, clear session
     if (error.response?.status === 401) {
       sessionStorage.removeItem("pv_token");
-      // Redirigir a login si no estamos ya ahí
+      // Redirect to login if not already there
       if (window.location.pathname !== "/login") {
         window.location.href = "/login";
       }
@@ -43,4 +43,3 @@ client.interceptors.response.use(
 );
 
 export default client;
-

@@ -1,5 +1,5 @@
 /**
- * Entry point de la aplicación
+ * Application entry point
  */
 
 import { StrictMode } from "react";
@@ -12,4 +12,3 @@ createRoot(document.getElementById("root")!).render(
     <App />
   </StrictMode>
 );
-

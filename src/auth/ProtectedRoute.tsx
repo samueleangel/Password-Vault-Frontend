@@ -1,6 +1,6 @@
 /**
- * Componente HOC para proteger rutas
- * Redirige a login si no hay token válido
+ * HOC component to protect routes
+ * Redirects to login if no valid token
  */
 
 import { Navigate, useLocation } from "react-router-dom";
@@ -15,10 +15,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    // Guardar la ubicación intentada para redirigir después del login
+    // Save attempted location for redirect after login
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;
 }
-

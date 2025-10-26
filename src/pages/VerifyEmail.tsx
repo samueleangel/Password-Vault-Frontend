@@ -1,6 +1,6 @@
 /**
- * Página de verificación de email
- * Lee el token de los query params y valida con el backend
+ * Email verification page
+ * Reads token from query params and validates with backend
  */
 
 import { useEffect, useState } from "react";
@@ -18,18 +18,18 @@ export default function VerifyEmail() {
 
       if (!token) {
         setStatus("error");
-        setMessage("Token de verificación no encontrado");
+        setMessage("Verification token not found");
         return;
       }
 
       try {
         const response = await client.get(`/auth/verify?token=${encodeURIComponent(token)}`);
         setStatus("success");
-        setMessage(response.data?.message || "Email verificado correctamente");
+        setMessage(response.data?.message || "Email verified successfully");
       } catch (err: any) {
         setStatus("error");
         setMessage(
-          err.response?.data?.message || "Token inválido o expirado. Solicita uno nuevo."
+          err.response?.data?.message || "Invalid or expired token. Please request a new one."
         );
       }
     };
@@ -43,17 +43,17 @@ export default function VerifyEmail() {
         {status === "loading" && (
           <div className="verify-status">
             <div className="spinner"></div>
-            <h2>Verificando tu email...</h2>
+            <h2>Verifying your email...</h2>
           </div>
         )}
 
         {status === "success" && (
           <div className="verify-status success">
             <div className="icon-large">✅</div>
-            <h1>Email verificado</h1>
+            <h1>Email Verified</h1>
             <p className="success-message">{message}</p>
             <Link to="/login" className="btn-primary">
-              Ir al login
+              Go to login
             </Link>
           </div>
         )}
@@ -61,14 +61,14 @@ export default function VerifyEmail() {
         {status === "error" && (
           <div className="verify-status error">
             <div className="icon-large">❌</div>
-            <h1>Error de verificación</h1>
+            <h1>Verification Error</h1>
             <p className="error-message">{message}</p>
             <div className="button-group">
               <Link to="/signup" className="btn-secondary">
-                Crear cuenta nueva
+                Create new account
               </Link>
               <Link to="/login" className="btn-primary">
-                Intentar login
+                Try logging in
               </Link>
             </div>
           </div>
@@ -77,4 +77,3 @@ export default function VerifyEmail() {
     </div>
   );
 }
-

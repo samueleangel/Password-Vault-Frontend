@@ -1,6 +1,6 @@
 /**
- * Context de autenticación
- * Maneja el estado del JWT y persistencia en sessionStorage
+ * Authentication context
+ * Manages JWT state and sessionStorage persistence
  */
 
 import React, { createContext, useState, useEffect, ReactNode } from "react";
@@ -26,7 +26,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setTokenState] = useState<string | null>(null);
 
-  // Cargar token desde sessionStorage al montar
+  // Load token from sessionStorage on mount
   useEffect(() => {
     const storedToken = sessionStorage.getItem("pv_token");
     if (storedToken) {
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     setToken(null);
-    // Redirigir a login
+    // Redirect to login
     window.location.href = "/login";
   };
 
@@ -59,4 +59,3 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-

@@ -5,14 +5,13 @@ echo "========================================"
 echo "  🔐 Password Vault Frontend"
 echo "========================================"
 echo ""
-echo "Iniciando servidor de desarrollo..."
+echo "Starting development server..."
 echo ""
-echo "La aplicación estará disponible en:"
+echo "Application will be available at:"
 echo "  http://localhost:5173"
 echo ""
-echo "Presiona Ctrl+C para detener el servidor"
+echo "Press Ctrl+C to stop the server"
 echo "========================================"
 echo ""
 
 npm run dev
-

@@ -1,13 +1,13 @@
 /**
- * Componente principal de la aplicación
- * Configura el routing y contexto de autenticación
+ * Main application component
+ * Configures routing and authentication context
  */
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
-// Páginas
+// Pages
 import Signup from "./pages/Signup";
 import VerifyEmail from "./pages/VerifyEmail";
 import Login from "./pages/Login";
@@ -20,15 +20,15 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Ruta raíz redirige al vault */}
+          {/* Root route redirects to vault */}
           <Route path="/" element={<Navigate to="/vault" replace />} />
 
-          {/* Rutas públicas - Auth */}
+          {/* Public routes - Auth */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Rutas protegidas - Vault */}
+          {/* Protected routes - Vault */}
           <Route
             path="/vault"
             element={
@@ -60,9 +60,9 @@ export default function App() {
             element={
               <div className="error-container">
                 <h1>404</h1>
-                <p>Página no encontrada</p>
+                <p>Page not found</p>
                 <a href="/vault" className="btn-primary">
-                  Ir al vault
+                  Go to vault
                 </a>
               </div>
             }
@@ -72,4 +72,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-

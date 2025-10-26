@@ -1,6 +1,6 @@
 /**
- * Página de registro de usuario
- * Valida email y master password (mín 12 caracteres)
+ * User registration page
+ * Validates email and master password (min 12 characters)
  */
 
 import { useForm } from "react-hook-form";
@@ -10,10 +10,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import client from "../api/client";
 
-// Schema de validación Zod
+// Zod validation schema
 const signupSchema = z.object({
-  email: z.string().email("Email inválido"),
-  master_password: z.string().min(12, "La contraseña maestra debe tener al menos 12 caracteres"),
+  email: z.string().email("Invalid email"),
+  master_password: z.string().min(12, "Master password must be at least 12 characters"),
 });
 
 type SignupFormData = z.infer<typeof signupSchema>;
@@ -37,12 +37,12 @@ export default function Signup() {
       await client.post("/auth/signup", data);
       setSuccess(true);
       
-      // Mensaje por 3 segundos antes de redirigir
+      // Show message for 3 seconds before redirecting
       setTimeout(() => {
         navigate("/login");
       }, 3000);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error al crear la cuenta. Intenta de nuevo.");
+      setError(err.response?.data?.message || "Error creating account. Please try again.");
     }
   };
 
@@ -50,12 +50,12 @@ export default function Signup() {
     return (
       <div className="auth-container">
         <div className="auth-card success-card">
-          <h1>✅ Cuenta creada</h1>
+          <h1>✅ Account Created</h1>
           <p className="success-message">
-            Revisa tu email para verificar tu cuenta antes de iniciar sesión.
+            Check your email to verify your account before logging in.
           </p>
           <Link to="/login" className="link-button">
-            Ir al login →
+            Go to login →
           </Link>
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function Signup() {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>🔐 Crear cuenta</h1>
+          <h1>🔐 Create Account</h1>
           <p className="auth-subtitle">Password Vault</p>
         </div>
 
@@ -78,7 +78,7 @@ export default function Signup() {
             <input
               id="email"
               type="email"
-              placeholder="tu@email.com"
+              placeholder="you@email.com"
               autoComplete="email"
               {...register("email")}
             />
@@ -86,11 +86,11 @@ export default function Signup() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="master_password">Contraseña maestra</label>
+            <label htmlFor="master_password">Master Password</label>
             <input
               id="master_password"
               type="password"
-              placeholder="Mínimo 12 caracteres"
+              placeholder="Minimum 12 characters"
               autoComplete="new-password"
               {...register("master_password")}
             />
@@ -98,18 +98,18 @@ export default function Signup() {
               <span className="error-text">{errors.master_password.message}</span>
             )}
             <small className="form-hint">
-              Esta contraseña se usará para cifrar/descifrar tus credenciales. No la olvides.
+              This password will be used to encrypt/decrypt your credentials. Don't forget it.
             </small>
           </div>
 
           <button type="submit" className="btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? "Creando cuenta..." : "Registrarme"}
+            {isSubmitting ? "Creating account..." : "Sign up"}
           </button>
         </form>
 
         <div className="auth-footer">
           <p>
-            ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+            Already have an account? <Link to="/login">Log in</Link>
           </p>
         </div>
       </div>

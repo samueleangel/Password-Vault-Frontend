@@ -29,13 +29,14 @@ export default function VaultDetail() {
     try {
       setLoading(true);
       setError(null);
-      const response = await client.get(`/vault/${id}`);
+      // Backend returns basic info without password if master_password not provided
+      const response = await client.get(`/vault/detail/${id}`);
       setItem(response.data);
     } catch (err: any) {
       if (err.response?.status === 404) {
         setError("Credential not found");
       } else {
-        setError(err.response?.data?.message || "Error loading credential");
+        setError(err.response?.data?.error || err.response?.data?.message || "Error loading credential");
       }
     } finally {
       setLoading(false);
@@ -54,8 +55,11 @@ export default function VaultDetail() {
       setRevealing(true);
       setRevealError(null);
       
-      const response = await client.post(`/vault/${id}/reveal`, {
-        master_password: masterPassword,
+      // Backend detail endpoint expects master_password in body of GET request
+      const response = await client.request({
+        method: 'GET',
+        url: `/vault/detail/${id}`,
+        data: { master_password: masterPassword }
       });
 
       setRevealedPassword(response.data.password);

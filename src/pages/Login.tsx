@@ -37,8 +37,16 @@ export default function Login() {
       setError(null);
       const response = await client.post("/auth/login", data);
       
+      // Backend returns 'access_token' instead of 'token'
+      const token = response.data.access_token || response.data.token;
+      
+      if (!token) {
+        setError("No token received from server");
+        return;
+      }
+      
       // Save token
-      setToken(response.data.token);
+      setToken(token);
 
       // Redirect to previous route or vault
       const from = (location.state as any)?.from?.pathname || "/vault";

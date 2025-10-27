@@ -24,15 +24,21 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setTokenState] = useState<string | null>(null);
+  // Initialize token from sessionStorage immediately
+  const [token, setTokenState] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("pv_token");
+    }
+    return null;
+  });
 
-  // Load token from sessionStorage on mount
+  // Sync token with sessionStorage on mount
   useEffect(() => {
     const storedToken = sessionStorage.getItem("pv_token");
-    if (storedToken) {
+    if (storedToken && storedToken !== token) {
       setTokenState(storedToken);
     }
-  }, []);
+  }, [token]);
 
   const setToken = (newToken: string | null, persist = true) => {
     setTokenState(newToken);

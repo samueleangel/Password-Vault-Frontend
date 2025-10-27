@@ -37,20 +37,32 @@ export default function VaultRegister() {
     try {
       setError(null);
       
-      // Clean empty URL
-      const payload = {
-        ...data,
-        app_login_url: data.app_login_url || undefined,
-        username: data.username || undefined,
+      // Backend only accepts: app_name, password, master_password, app_login_url (optional)
+      // Remove username as it's not in the backend schema
+      const payload: any = {
+        app_name: data.app_name,
+        password: data.password,
+        master_password: data.master_password,
       };
+      
+      // Only include app_login_url if it's not empty
+      if (data.app_login_url && data.app_login_url.trim()) {
+        payload.app_login_url = data.app_login_url;
+      }
 
+      console.log("📤 Sending payload:", { ...payload, master_password: "***", password: "***" });
       await client.post("/vault/register", payload);
       navigate("/vault");
     } catch (err: any) {
+      console.error("❌ Register error:", err);
+      console.error("❌ Error response:", err.response?.data);
+      
       if (err.response?.status === 401) {
         setError("Incorrect master password");
+      } else if (err.response?.status === 409) {
+        setError("An app with this name already exists");
       } else {
-        setError(err.response?.data?.message || "Error saving credential");
+        setError(err.response?.data?.error || err.response?.data?.message || "Error saving credential");
       }
     }
   };

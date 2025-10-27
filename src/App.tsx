@@ -53,6 +53,15 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          {/* Backend uses detail instead of just id */}
+          <Route
+            path="/vault/detail/:id"
+            element={
+              <ProtectedRoute>
+                <VaultDetail />
+              </ProtectedRoute>
+            }
+          />
 
           {/* 404 */}
           <Route

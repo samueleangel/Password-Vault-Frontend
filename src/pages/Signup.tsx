@@ -21,7 +21,6 @@ type SignupFormData = z.infer<typeof signupSchema>;
 export default function Signup() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const {
     register,
@@ -35,32 +34,12 @@ export default function Signup() {
     try {
       setError(null);
       await client.post("/auth/signup", data);
-      setSuccess(true);
-      
-      // Show message for 3 seconds before redirecting
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+      // Account created successfully, redirect to login
+      navigate("/login");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error creating account. Please try again.");
+      setError(err.response?.data?.error || err.response?.data?.message || "Error creating account. Please try again.");
     }
   };
-
-  if (success) {
-    return (
-      <div className="auth-container">
-        <div className="auth-card success-card">
-          <h1>✅ Account Created</h1>
-          <p className="success-message">
-            Check your email to verify your account before logging in.
-          </p>
-          <Link to="/login" className="link-button">
-            Go to login →
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="auth-container">

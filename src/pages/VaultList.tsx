@@ -26,9 +26,17 @@ export default function VaultList() {
       setError(null);
       const response = await client.get("/vault/list");
       
-      // Backend may return {items: [...]} or directly [...]
-      const data = response.data.items || response.data;
-      setItems(Array.isArray(data) ? data : []);
+      // Backend returns {apps: [{name, id}]}
+      const apps = response.data.apps || [];
+      
+      // Map backend format to frontend format
+      const mappedItems = apps.map((app: any) => ({
+        id: app.id,
+        app_name: app.name, // Backend returns 'name', we expect 'app_name'
+        created_at: new Date().toISOString(), // Backend doesn't return created_at in list
+      }));
+      
+      setItems(mappedItems);
     } catch (err: any) {
       setError(err.response?.data?.message || "Error loading credentials");
     } finally {
@@ -101,7 +109,7 @@ export default function VaultList() {
         {!loading && !error && filteredItems.length > 0 && (
           <div className="vault-grid">
             {filteredItems.map((item) => (
-              <Link to={`/vault/${item.id}`} key={item.id} className="vault-card">
+              <Link to={`/vault/detail/${item.id}`} key={item.id} className="vault-card">
                 <div className="vault-card-header">
                   <h3>{item.app_name}</h3>
                 </div>

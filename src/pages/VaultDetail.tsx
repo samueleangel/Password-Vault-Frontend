@@ -4,13 +4,12 @@
  */
 
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import client from "../api/client";
 import { VaultItemDetail } from "../types";
 
 export default function VaultDetail() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
 
   const [item, setItem] = useState<VaultItemDetail | null>(null);
   const [loading, setLoading] = useState(true);

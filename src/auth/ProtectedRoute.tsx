@@ -19,7 +19,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   // Wait for token to load from sessionStorage
   useEffect(() => {
     const checkToken = () => {
-      const token = sessionStorage.getItem("pv_token");
+      // Check if token exists in sessionStorage
+      sessionStorage.getItem("pv_token");
       setIsLoading(false);
     };
     

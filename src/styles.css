@@ -710,36 +710,157 @@ button:disabled,
 
 .revealed-password {
   text-align: center;
+  position: relative;
+}
+
+.password-reveal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.password-reveal-header h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--color-success);
+}
+
+.countdown-timer {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.countdown-timer strong {
+  color: var(--color-warning);
+  font-size: 1rem;
+  margin-left: 0.25rem;
 }
 
 .password-display {
   background: var(--color-bg-secondary);
   border: 2px solid var(--color-success);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
   margin-bottom: var(--spacing-lg);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  animation: revealAnimation 0.3s ease-out;
 }
 
-.password-display code {
-  font-size: 1.25rem;
-  letter-spacing: 0.05em;
+@keyframes revealAnimation {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.password-display code,
+.password-code {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
   background: transparent;
   padding: 0;
   color: var(--color-success);
   word-break: break-all;
+  font-weight: 600;
+  display: block;
+  user-select: all;
+  font-family: var(--font-mono);
 }
 
 .password-actions {
   display: flex;
   gap: var(--spacing-md);
   justify-content: center;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.btn-copy,
+.btn-hide {
+  padding: 0.875rem 1.75rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.btn-copy {
+  background: var(--color-success);
+  color: white;
+}
+
+.btn-copy:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-hide {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-hide:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-light);
 }
 
 .security-notice {
   font-size: 0.875rem;
   color: var(--color-warning);
   margin: 0;
+  padding: var(--spacing-md);
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.copy-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--color-success);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideInUp 0.3s ease-out, fadeOut 0.3s ease-in 1.7s forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 /* ============================================
@@ -816,6 +937,31 @@ button:disabled,
   
   .password-actions {
     flex-direction: column;
+  }
+  
+  .password-actions button {
+    width: 100%;
+  }
+  
+  .copy-toast {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    text-align: center;
+  }
+  
+  .password-reveal-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
+  }
+  
+  .countdown-timer {
+    text-align: center;
+  }
+  
+  .password-code {
+    font-size: 1.25rem;
   }
 }
 

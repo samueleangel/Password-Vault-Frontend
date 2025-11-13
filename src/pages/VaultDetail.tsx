@@ -20,6 +20,8 @@ export default function VaultDetail() {
   const [revealedPassword, setRevealedPassword] = useState<string | null>(null);
   const [revealing, setRevealing] = useState(false);
   const [revealError, setRevealError] = useState<string | null>(null);
+  const [showCopiedToast, setShowCopiedToast] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30);
 
   useEffect(() => {
     loadVaultItem();
@@ -55,6 +57,8 @@ export default function VaultDetail() {
       setRevealing(true);
       setRevealError(null);
       
+      console.log("🔓 Requesting password reveal for ID:", id);
+      
       // Backend detail endpoint expects master_password in body of GET request
       const response = await client.request({
         method: 'GET',
@@ -62,34 +66,68 @@ export default function VaultDetail() {
         data: { master_password: masterPassword }
       });
 
-      setRevealedPassword(response.data.password);
+      console.log("✅ Password revealed successfully");
+      console.log("🔐 Decrypted password:", response.data.password);
       
-      // Auto-hide after 30 seconds for security
-      setTimeout(() => {
-        setRevealedPassword(null);
-        setMasterPassword("");
-      }, 30000);
+      setRevealedPassword(response.data.password);
+      setTimeLeft(30);
+      
+      // Countdown timer
+      const interval = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setRevealedPassword(null);
+            setMasterPassword("");
+            return 30;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      // Store interval ID to clear if user manually hides
+      (window as any).revealInterval = interval;
+      
     } catch (err: any) {
+      console.error("❌ Error revealing password:", err);
+      console.error("❌ Error response:", err.response?.data);
+      
       if (err.response?.status === 401) {
         setRevealError("Incorrect master password");
       } else {
-        setRevealError(err.response?.data?.message || "Error revealing password");
+        setRevealError(err.response?.data?.error || err.response?.data?.message || "Error revealing password");
       }
     } finally {
       setRevealing(false);
     }
   };
 
-  const handleCopyPassword = () => {
+  const handleCopyPassword = async () => {
     if (revealedPassword) {
-      navigator.clipboard.writeText(revealedPassword);
-      alert("Password copied to clipboard");
+      try {
+        await navigator.clipboard.writeText(revealedPassword);
+        setShowCopiedToast(true);
+        console.log("📋 Password copied to clipboard");
+        
+        // Hide toast after 2 seconds
+        setTimeout(() => {
+          setShowCopiedToast(false);
+        }, 2000);
+      } catch (err) {
+        console.error("Failed to copy:", err);
+        alert("Failed to copy password");
+      }
     }
   };
 
   const handleHidePassword = () => {
+    // Clear the countdown interval
+    if ((window as any).revealInterval) {
+      clearInterval((window as any).revealInterval);
+    }
     setRevealedPassword(null);
     setMasterPassword("");
+    setTimeLeft(30);
   };
 
   if (loading) {
@@ -196,20 +234,36 @@ export default function VaultDetail() {
               </form>
             ) : (
               <div className="revealed-password">
+                <div className="password-reveal-header">
+                  <h4>🔓 Decrypted Password</h4>
+                  <div className="countdown-timer">
+                    Auto-hide in: <strong>{timeLeft}s</strong>
+                  </div>
+                </div>
+                
                 <div className="password-display">
-                  <code>{revealedPassword}</code>
+                  <code className="password-code">{revealedPassword}</code>
                 </div>
+                
                 <div className="password-actions">
-                  <button onClick={handleCopyPassword} className="btn-secondary">
-                    📋 Copy
+                  <button onClick={handleCopyPassword} className="btn-copy">
+                    📋 Copy to Clipboard
                   </button>
-                  <button onClick={handleHidePassword} className="btn-secondary">
-                    👁️ Hide
+                  <button onClick={handleHidePassword} className="btn-hide">
+                    👁️ Hide Password
                   </button>
                 </div>
+                
                 <p className="security-notice">
-                  ⚠️ Password will be hidden automatically in 30 seconds
+                  ⚠️ Make sure no one is looking at your screen
                 </p>
+
+                {/* Toast notification */}
+                {showCopiedToast && (
+                  <div className="copy-toast">
+                    ✅ Password copied to clipboard!
+                  </div>
+                )}
               </div>
             )}
           </div>

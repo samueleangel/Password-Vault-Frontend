@@ -58,11 +58,14 @@ export default function VaultDetail() {
       
       console.log("🔓 Requesting password reveal for ID:", id);
       
-      // Backend detail endpoint expects master_password in body of GET request
-      const response = await client.request({
-        method: 'GET',
-        url: `/vault/detail/${id}`,
-        data: { master_password: masterPassword }
+      // // Backend detail endpoint expects master_password in body of GET request
+      // const response = await client.request({
+      //   method: 'GET',
+      //   url: `/vault/detail/${id}`,
+      //   data: { master_password: masterPassword }
+      // Use POST to send master_password in body (GET requests don't support body in Axios)
+      const response = await client.post(`/vault/detail/${id}/reveal`, {
+        master_password: masterPassword
       });
 
       console.log("✅ Password revealed successfully");

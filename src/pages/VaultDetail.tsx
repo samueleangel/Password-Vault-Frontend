@@ -66,6 +66,8 @@ export default function VaultDetail() {
       console.log("✅ Password revealed successfully");
       console.log("📦 Full response:", response.data);
       console.log("🔐 Decrypted password:", response.data.password);
+      console.log("🔐 Password type:", typeof response.data.password);
+      console.log("🔐 Password length:", response.data.password?.length);
       
       if (!response.data.password) {
         console.error("❌ Password is empty or undefined!");
@@ -95,9 +97,12 @@ export default function VaultDetail() {
     } catch (err: any) {
       console.error("❌ Error revealing password:", err);
       console.error("❌ Error response:", err.response?.data);
+      console.error("❌ Error status:", err.response?.status);
       
       if (err.response?.status === 401) {
-        setRevealError("Incorrect master password");
+        setRevealError("Incorrect master password. Please try again.");
+      } else if (err.response?.status === 500) {
+        setRevealError(err.response?.data?.error || "Decryption failed. Please check your master password.");
       } else {
         setRevealError(err.response?.data?.error || err.response?.data?.message || "Error revealing password");
       }
